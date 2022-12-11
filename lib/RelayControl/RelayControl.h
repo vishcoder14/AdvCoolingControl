@@ -14,15 +14,15 @@ Mainly it control two independent RCS(s), named RCS-1, RCS-2.
 --------------------------------------------------------------------------------------
 */
 
-
-#define TRIGG_RELAY 0X0
-#define RELEASE_RELAY 0X1B
+#include <Arduino.h>
 
 #define peltier1 PE1
 #define peltier2 PE2
 #define flood_coolant_fan FCF
 #define CS_PUMP1 CSWP
 #define HS_PUMP2 HSWP
+#define TRIGG_RELAY LOW
+#define RELEASE_RELAY HIGH
 
 
 // [RCS-1] Thermoelectric devices control:

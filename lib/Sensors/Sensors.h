@@ -14,7 +14,6 @@ returns temperature(in C) based on respective analog signals recieved.
 --------------------------------------------------------------------------------
 */
 
-
 #include <OneWire.h>
 #include <DS18B20_deviceAddrMapping.h>
 #include <DallasTemperature.h>
@@ -27,10 +26,10 @@ returns temperature(in C) based on respective analog signals recieved.
 
 // sensor address mpping 
 // (X_MOT_SA -> x motor sensor address)
-#define X_MOT_SA sAddr1
-#define Y_MOT_SA sAddr2
-#define Z_MOT_SA sAddr3
-#define E_MOT_SA sAddr4
+#define X_MOT_SA x_addr
+#define Y_MOT_SA y_addr
+#define Z_MOT_SA z_addr
+#define E_MOT_SA e_addr
 
 OneWire oneWire(ONEWIRE_PORT);	
 DallasTemperature sensors(&oneWire);

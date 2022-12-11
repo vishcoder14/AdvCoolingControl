@@ -16,12 +16,13 @@ arduino environment.
 #include <PCF8574.h>
 #include <Wire.h>
 
+// set yours PCF8574's default address:
 #define PCF8574_defaultAddr 0x20
 #define PE1 P1
 #define PE2 P2
 #define FCF P3
-#define CSWP P4  //cool_side_water_pump
-#define HSWP P5  //hot_side_water_pump
+#define CSWP P4  
+#define HSWP P5
 int nDevices;
 
 /* [PCF8574 8-BIT ADDRESS TABLE]
