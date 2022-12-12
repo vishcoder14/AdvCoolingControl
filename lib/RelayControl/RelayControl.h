@@ -15,52 +15,65 @@ Mainly it control two independent RCS(s), named RCS-1, RCS-2.
 */
 
 #include <Arduino.h>
+                                
+// device mapping:                 [Unique Relay block Code]
+#define peltier1 PE1            // p
+#define peltier2 PE2            // q
+#define flood_coolant_fan FCF   // r
+#define CS_PUMP1 CSWP           // s 
+#define HS_PUMP2 HSWP           // t
 
-#define peltier1 PE1
-#define peltier2 PE2
-#define flood_coolant_fan FCF
-#define CS_PUMP1 CSWP
-#define HS_PUMP2 HSWP
+// relay states:
 #define TRIGG_RELAY LOW
 #define RELEASE_RELAY HIGH
+#define SWITCH_ON 1
+#define SWITCH_OFF 0 
 
+// temperature states:
+#define lowtemp 14
+#define mediantemp 22
+#define hightemp 30
 
-// [RCS-1] Thermoelectric devices control:
-void ThermoElec_RelayControl(int _temp1) {
-  if(_temp1<14) {
-    if(digitalRead(peltier1)==1) {
-      digitalWrite(peltier1, RELEASE_RELAY);
-      Serial.println("[CT below 14C, P1 has switched OFF]");
-      if(digitalRead(peltier2)==1) {
-        digitalWrite(peltier2, RELEASE_RELAY); 
-        Serial.println("[CT below 14C, P2 has switched OFF]"); 
-      }
+// RELAY (RCS) CONTROL METHOD:
+void RelayController(uint8_t _relaydef, bool _state, String _deviceID) {
+  // @_state ON/1
+  if(_state == HIGH) {
+    if(digitalRead(_relaydef)!=_state) {
+      digitalWrite(_relaydef, TRIGG_RELAY);
+      Serial.println(_deviceID);
+      Serial.println(" switched ON");
+    }
+    else if(digitalRead(_relaydef) == _state) {
+      Serial.println(_deviceID);
+      Serial.println(" is already ON");
     }
   }
-  else if(_temp1>22) {
-    if(digitalRead(peltier1)==0) {
-      digitalWrite(peltier1, TRIGG_RELAY);
-      Serial.println("[CT above 28C, P1 has switched ON]"); 
+  // @_state OFF/0
+  else if(_state == LOW) {
+    if(digitalRead(_relaydef) != _state) {
+      digitalWrite(_relaydef, RELEASE_RELAY);
+      Serial.println(_deviceID);
+      Serial.println(" switched OFF");
     }
-    if(digitalRead(peltier2)==1) {
-      digitalWrite(peltier2, RELEASE_RELAY);
+    else if(digitalRead(_relaydef) == _state) {
+      Serial.println(_deviceID);
+      Serial.println(" is already OFF");
     }
-  }
-  else if(_temp1>32) {
-    if(digitalRead(peltier1)==0) {
-      digitalWrite(peltier1, TRIGG_RELAY);
-      Serial.println("[CT above 32C, P1 has switched ON]"); }
-    else { 
-      Serial.println("[CT above 32C, P1 has already switched ON]"); }
-    
-    if(digitalRead(peltier2)==0) {  
-      digitalWrite(peltier2, TRIGG_RELAY);
-      Serial.println("[CT above 32C, P2 has switched ON]"); }
-    else { 
-      Serial.println("[CT above 32C, P2 has already switched ON]"); }
   }
 }
 
+// [RCS-1] Thermoelectric devices control:
+void ThermoElec_RelayControl(int _temp1) {
+  if(_temp1<lowtemp) {
+    RelayController(peltier1, SWITCH_ON, "peltier1");
+  }
+  else if(_temp1>mediantemp) { 
+    RelayController(peltier1, SWITCH_ON, "peltier1");
+  }
+  else if(_temp1>hightemp) {
+    RelayController(peltier1, SWITCH_ON, "peltier1");
+  }
+}
 
 // [RCS-2] Coolant fans control:
 void CFan_RelayControl(int _temp0) {

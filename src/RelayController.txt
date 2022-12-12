@@ -1,0 +1,59 @@
+void RelayController(uint8_t _relayCode, bool _state) {
+  switch (_relayCode) {
+    // device map 1: peltier1 
+    case 'p': 
+      if(_state == 1) {
+        if(digitalRead(peltier1) == !_state) {
+          digitalWrite(_relayCode, TRIGG_RELAY); 
+          Serial.println("peltier1 switched on");
+        }
+        else { Serial.println("peltier1 is already ON"); }
+      }
+      else if(_state == 0) {
+        if(digitalRead(peltier1) == !_state) {
+          digitalWrite(peltier1, RELEASE_RELAY);
+          Serial.println("peltier1 switched OFF");
+        }
+        else { Serial.println("peltier1 is already OFF"); }
+      }
+      break;
+
+    // device map 2: peltier2
+    case 'q':
+      if(_state == 1) {
+        if(digitalRead(peltier2) == !_state) {
+          digitalWrite(peltier2, TRIGG_RELAY); 
+          Serial.println("peltier2 switched ON");        
+        }
+        else { Serial.println("peltier2 is already ON");}
+      } 
+      else if(_state == 0) {
+        if(digitalRead(peltier2) == !_state) {
+          digitalWrite(peltier2, RELEASE_RELAY);
+          Serial.println("peltier2 switched OFF");
+        }
+        else { Serial.println("peltier2 is already OFF"); }
+      }
+      break; 
+    
+    // device map 3: flood_coolant_fan
+    case 'r':
+      if(_state == 1) {
+        if(digitalRead(flood_coolant_fan) == !_state) {
+          digitalWrite(flood_coolant_fan, TRIGG_RELAY); 
+          Serial.println("coolant switched ON");        
+        }
+        else { Serial.println("coolant is already ON");}
+      } 
+      else if(_state == 0) {
+        if(digitalRead(flood_coolant_fan) == !_state) {
+          digitalWrite(flood_coolant_fan, RELEASE_RELAY);
+          Serial.println("coolant switched OFF");
+        }
+        else { Serial.println("coolant is already OFF"); }
+      }
+      break; 
+  default:
+    break;
+  }
+}
