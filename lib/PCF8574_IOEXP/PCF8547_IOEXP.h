@@ -36,7 +36,7 @@ int nDevices;
 8. 111 = 0x27  */
 
 // I2C address scanner for PCF8574 module: 
-void run_AddrScanner() {
+void run_PCF8574_addrScanner() {
   byte error, address;
 
   Serial.println(F("Scanning..."));

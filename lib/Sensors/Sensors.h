@@ -26,10 +26,10 @@ returns temperature(in C) based on respective analog signals recieved.
 
 // sensor address mpping 
 // (X_MOT_SA -> x motor sensor address)
-#define X_MOT_SA x_addr
-#define Y_MOT_SA y_addr
-#define Z_MOT_SA z_addr
-#define E_MOT_SA e_addr
+#define X_MOT_SA x_sensorAddr
+#define Y_MOT_SA y_sensorAddr
+#define Z_MOT_SA z_sensorAddr
+#define E_MOT_SA e_sensorAddr
 
 OneWire oneWire(ONEWIRE_PORT);	
 DallasTemperature sensors(&oneWire);

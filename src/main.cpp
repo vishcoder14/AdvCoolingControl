@@ -19,6 +19,7 @@ too, also for the print head. Make sures motor looses not steps. Cool :)
 #include <Sensors.h>
 #include <RelayControl.h>
 
+// mapping of peltier sensors:
 #define HSTS A0
 #define CSTS A1 
 #define NCTS A2  
@@ -42,8 +43,8 @@ void setup() {
   pinMode(NCTS, INPUT);
   Serial.println(F("[MCU I/O pin modes initiated]"));
   
-  // init_AddrScanner();
-  //initPins_PCF8574(); 
+  // init_PCF8574_addrScanner();
+  // initPins_PCF8574(); 
 
   if(DS18B20.init_sensor() == EXIT_SUCCESS) {
     Serial.println(F("[ initiated DS18B20]"));

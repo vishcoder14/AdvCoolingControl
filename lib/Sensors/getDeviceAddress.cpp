@@ -18,6 +18,7 @@ DeviceAddress AddrBuffer;
 OneWire oneWire(ONEWIRE_PORT);	
 DallasTemperature sensors(&oneWire);
 
+void printAddress(DeviceAddress);
 
 void getDeviceAddr() {
   // Locate all the devices on bus
