@@ -15,7 +15,7 @@ returns temperature(in C) based on respective analog signals recieved.
 */
 
 #include <OneWire.h>
-#include <DS18B20_deviceAddrMapping.h>
+#include <DS18B20_AddrMap.h>
 #include <DallasTemperature.h>
 
 #define ONEWIRE_PORT 2
