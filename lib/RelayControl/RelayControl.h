@@ -16,12 +16,12 @@ Mainly it control two independent RCS(s), named RCS-1, RCS-2.
 
 #include <Arduino.h>
                                 
-// device mapping:                 [Unique Relay block Code]
-#define peltier1 PE1            // p
-#define peltier2 PE2            // q
-#define flood_coolant_fan FCF   // r
-#define CS_PUMP1 CSWP           // s 
-#define HS_PUMP2 HSWP           // t
+// device mapping:
+#define peltier1 PE1
+#define peltier2 PE2
+#define flood_coolant_fan FCF
+#define CS_PUMP1 CSWP
+#define HS_PUMP2 HSWP
 
 // relay states:
 #define TRIGG_RELAY LOW
