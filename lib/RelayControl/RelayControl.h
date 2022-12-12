@@ -65,7 +65,8 @@ void RelayController(uint8_t _relaydef, bool _state, String _deviceID) {
 // [RCS-1] Thermoelectric devices control:
 void ThermoElec_RelayControl(int _temp1) {
   if(_temp1<lowtemp) {
-    RelayController(peltier1, SWITCH_ON, "peltier1");
+    RelayController(peltier1, SWITCH_OFF, "peltier1");
+    RelayController(peltier2, SWITCH_OFF, "peltier2");
   }
   else if(_temp1>mediantemp) { 
     RelayController(peltier1, SWITCH_ON, "peltier1");
