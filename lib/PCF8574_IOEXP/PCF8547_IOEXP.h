@@ -18,6 +18,7 @@ arduino environment.
 
 // set yours PCF8574's default address:
 #define PCF8574_defaultAddr 0x20
+
 #define PE1 P1
 #define PE2 P2
 #define FCF P3
@@ -34,6 +35,7 @@ int nDevices;
 6. 101 = 0x25
 7. 110 = 0x26
 8. 111 = 0x27  */
+
 
 // I2C address scanner for PCF8574 module: 
 void run_PCF8574_addrScanner() {

@@ -36,6 +36,7 @@ DallasTemperature sensors(&oneWire);
 
 double T0 = 25 + 273.15; 
 
+
 // NTC10k sensor class:
 class ntc10k {
   public : bool init_sensor() {

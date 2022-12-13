@@ -26,25 +26,26 @@ Mainly it control two independent RCS(s), named RCS-1, RCS-2.
 // relay states:
 #define TRIGG_RELAY LOW
 #define RELEASE_RELAY HIGH
-#define SWITCH_ON 1
-#define SWITCH_OFF 0 
+#define SWITCH_ON 0x0
+#define SWITCH_OFF 0x1
 
 // temperature states:
 #define lowtemp 14
 #define mediantemp 22
 #define hightemp 30
 
+
 // RELAY (RCS) CONTROL METHOD:
-void RelayController(uint8_t _relaydef, bool _state, String _deviceID) {
+void switchRelay(uint8_t _relaydef, bool _state, String _deviceID) {
   // @_state ON/1
   if(_state == HIGH) {
     if(digitalRead(_relaydef)!=_state) {
       digitalWrite(_relaydef, TRIGG_RELAY);
-      Serial.println(_deviceID);
+      Serial.print(_deviceID);
       Serial.println(" switched ON");
     }
     else if(digitalRead(_relaydef) == _state) {
-      Serial.println(_deviceID);
+      Serial.print(_deviceID);
       Serial.println(" is already ON");
     }
   }
@@ -52,11 +53,11 @@ void RelayController(uint8_t _relaydef, bool _state, String _deviceID) {
   else if(_state == LOW) {
     if(digitalRead(_relaydef) != _state) {
       digitalWrite(_relaydef, RELEASE_RELAY);
-      Serial.println(_deviceID);
+      Serial.print(_deviceID);
       Serial.println(" switched OFF");
     }
     else if(digitalRead(_relaydef) == _state) {
-      Serial.println(_deviceID);
+      Serial.print(_deviceID);
       Serial.println(" is already OFF");
     }
   }
@@ -65,14 +66,15 @@ void RelayController(uint8_t _relaydef, bool _state, String _deviceID) {
 // [RCS-1] Thermoelectric devices control:
 void ThermoElec_RelayControl(int _temp1) {
   if(_temp1<lowtemp) {
-    RelayController(peltier1, SWITCH_OFF, "peltier1");
-    RelayController(peltier2, SWITCH_OFF, "peltier2");
+    switchRelay(peltier1, SWITCH_OFF, "peltier1");
+    switchRelay(peltier2, SWITCH_OFF, "peltier2");
   }
   else if(_temp1>mediantemp) { 
-    RelayController(peltier1, SWITCH_ON, "peltier1");
+    switchRelay(peltier1, SWITCH_ON, "peltier1");
   }
   else if(_temp1>hightemp) {
-    RelayController(peltier1, SWITCH_ON, "peltier1");
+    switchRelay(peltier1, SWITCH_ON, "peltier1");
+    switchRelay(peltier2, SWITCH_ON, "peltier2");
   }
 }
 
@@ -88,6 +90,7 @@ void CFan_RelayControl(int _temp0) {
     if(digitalRead(flood_coolant_fan)==0) {
       digitalWrite(flood_coolant_fan, TRIGG_RELAY);
       Serial.println(F("[Radiator fan, switched ON]"));
-    } 
+    }
   }
 }
+
