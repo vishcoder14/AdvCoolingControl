@@ -19,6 +19,7 @@ arduino environment.
 // set yours PCF8574's default address:
 #define PCF8574_defaultAddr 0x20
 
+// pin mapping:
 #define PE1 P1
 #define PE2 P2
 #define FCF P3

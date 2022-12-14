@@ -34,6 +34,7 @@ returns temperature(in C) based on respective analog signals recieved.
 OneWire oneWire(ONEWIRE_PORT);	
 DallasTemperature sensors(&oneWire);
 
+bool INIT_FLAG = 0;
 double T0 = 25 + 273.15; 
 
 
@@ -60,28 +61,35 @@ class ntc10k {
 class ds18b20 {
   public : bool init_sensor() {
     sensors.begin();
+    INIT_FLAG = 1;
     return EXIT_SUCCESS;
   }
 
   public : void GetTempByAddr() {
-    sensors.requestTemperatures();
-    Serial.print("Sensor 1: ");
-    getTemp(X_MOT_SA);
-    Serial.print("Sensor 2: ");
-    getTemp(Y_MOT_SA);
-    Serial.print("Sensor 3: ");
-    getTemp(Z_MOT_SA);
-    Serial.print("Sensor 4: ");
-    getTemp(E_MOT_SA);
-  
-    Serial.println();
-    delay(1000);
+    if(INIT_FLAG) {
+      sensors.requestTemperatures();
+      Serial.print("Sensor 1: ");
+      // getTemp({SENSOR ADDRESS})
+      getTemp(X_MOT_SA);
+      Serial.print("Sensor 2: ");
+      getTemp(Y_MOT_SA);
+      Serial.print("Sensor 3: ");
+      getTemp(Z_MOT_SA);
+      Serial.print("Sensor 4: ");
+      getTemp(E_MOT_SA);
+
+      Serial.println();
+      delay(1000);
+    }
+    else {
+      init_sensor();
+      Serial.println("auto initialised DS18B20");
+    }
   }
 
   private : void getTemp(DeviceAddress deviceAddress) {
     float tempC = sensors.getTempC(deviceAddress);
     Serial.print(tempC);
-    Serial.print((char)176);
     Serial.print("C");
 }
 };

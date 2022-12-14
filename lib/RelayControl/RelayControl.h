@@ -15,27 +15,29 @@ Mainly it control two independent RCS(s), named RCS-1, RCS-2.
 */
 
 #include <Arduino.h>
-                                
+
 // device mapping:
 #define peltier1 PE1
 #define peltier2 PE2
 #define flood_coolant_fan FCF
-#define CS_PUMP1 CSWP
-#define HS_PUMP2 HSWP
+#define CS_PUMP CSWP
+#define HS_PUMP HSWP
 
 // relay states:
 #define TRIGG_RELAY LOW
 #define RELEASE_RELAY HIGH
-#define SWITCH_ON 0x0
-#define SWITCH_OFF 0x1
+#define SWITCH_ON 0x1
+#define SWITCH_OFF 0x0
 
-// temperature states:
+// temperature constants:
 #define lowtemp 14
 #define mediantemp 22
-#define hightemp 30
+#define hightemp 32
+
+// device ID constants:
 
 
-// RELAY (RCS) CONTROL METHOD:
+// RELAY CONTROL SECTION (RCS):
 void switchRelay(uint8_t _relaydef, bool _state, String _deviceID) {
   // @_state ON/1
   if(_state == HIGH) {
@@ -64,7 +66,8 @@ void switchRelay(uint8_t _relaydef, bool _state, String _deviceID) {
 }
 
 // [RCS-1] Thermoelectric devices control:
-void ThermoElec_RelayControl(int _temp1) {
+// (for NTC-S1 @peltier cool side)
+void NTC_CS(int _temp1) {
   if(_temp1<lowtemp) {
     switchRelay(peltier1, SWITCH_OFF, "peltier1");
     switchRelay(peltier2, SWITCH_OFF, "peltier2");
@@ -79,18 +82,13 @@ void ThermoElec_RelayControl(int _temp1) {
 }
 
 // [RCS-2] Coolant fans control:
-void CFan_RelayControl(int _temp0) {
+// (for NTC-S2 @peltier hot side)
+void NTC_HS(int _temp0) {
   if(_temp0<20) {
-    if(digitalRead(flood_coolant_fan)==1) {
-      digitalWrite(flood_coolant_fan, RELEASE_RELAY);
-      Serial.println(F("[Radiator fan, switched OFF]"));
-    } 
+    switchRelay(flood_coolant_fan, SWITCH_OFF, "coolant fan");
   }
   else if(_temp0>45) {
-    if(digitalRead(flood_coolant_fan)==0) {
-      digitalWrite(flood_coolant_fan, TRIGG_RELAY);
-      Serial.println(F("[Radiator fan, switched ON]"));
-    }
+    switchRelay(flood_coolant_fan, SWITCH_ON, "coolant fan");
   }
 }
 

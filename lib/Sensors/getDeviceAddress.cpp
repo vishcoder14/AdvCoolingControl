@@ -2,52 +2,57 @@
 [Part of ADVANCED COOLING CONTROL ALGORITHM]
 
 Arduino compatible algorithm for accessing DS18B20
-1-wire protocol supported temperature sensor
+1-wire protocol supported temperature sensor data.
 
 [vishnus_technologies (C) 2022]
---------------------------------------------
+--------------------------------------------------
 */
 
 #include <Arduino.h>
 #include <DallasTemperature.h>
 
 #define ONEWIRE_PORT 2
-int deviceCount;
-DeviceAddress AddrBuffer;
+byte deviceCount;
+DeviceAddress sensorAddress;
 
-OneWire oneWire(ONEWIRE_PORT);	
+OneWire oneWire(ONEWIRE_PORT);
 DallasTemperature sensors(&oneWire);
 
 void printAddress(DeviceAddress);
 
 void getDeviceAddr() {
   // Locate all the devices on bus
-  Serial.println("Locating devices...");
   deviceCount = sensors.getDeviceCount();
+  Serial.print("Found ");
   Serial.print(deviceCount, DEC);
   Serial.println(" devices.");
-  Serial.println("");
 
   Serial.println("Printing addresses...");
-  for (int d_ID = 0;  d_ID < deviceCount;  d_ID++) {
+  for(int _device = 1;  _device <= deviceCount;  _device++) {
     Serial.print("Sensor ");
-    Serial.print(d_ID+1);
+    Serial.print(_device);
     Serial.print(" : ");
-    sensors.getAddress(AddrBuffer, d_ID);
-    printAddress(AddrBuffer);
+    if(sensors.getAddress(sensorAddress, _device)) {
+      printAddress(sensorAddress);
+    }
+    else {
+      Serial.print("Address for sensor: ");
+      Serial.print(_device);
+      Serial.println(" not found");
+    } 
  }
 }
 
 void printAddress(DeviceAddress deviceAddress) { 
-    for (uint8_t i = 0; i < 8; i++) {
-      Serial.print("0x");
-      if (deviceAddress[i] < 0x10) Serial.print("0");
+  for (uint8_t i = 0; i < 8; i++) {
+    Serial.print("0x");
+    if (deviceAddress[i] < 0x10) Serial.print("0");
       Serial.print(deviceAddress[i], HEX);
-      if (i < 7) Serial.print(", ");
-    }
-    Serial.println("");
+    if (i < 7) Serial.print(", ");
   }
+  Serial.println("");
+}
 
-  void setup(){
-    getDeviceAddr();
-  }
+void setup(){
+  getDeviceAddr();
+}
