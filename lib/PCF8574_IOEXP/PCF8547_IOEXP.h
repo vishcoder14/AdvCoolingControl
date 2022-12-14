@@ -16,9 +16,6 @@ arduino environment.
 #include <PCF8574.h>
 #include <Wire.h>
 
-// PCF8574's default address:
-#define PCF8574_defaultAddr 0x20
-
 // pin mapping:
 #define PE1 P1
 #define PE2 P2
@@ -27,15 +24,20 @@ arduino environment.
 #define HSWP P5
 int nDevices;
 
-/* [PCF8574 8-BIT ADDRESS TABLE]
-1. 000 = 0x20
+/* ------------------------------------
+set your PCF8574's address accordingly:
+[PCF8574 8-BIT ADDRESS TABLE]
+1. 000 = 0x20 (by default)
 2. 001 = 0x21
 3. 010 = 0x22
 4. 011 = 0x23
 5. 100 = 0x24
 6. 101 = 0x25
 7. 110 = 0x26
-8. 111 = 0x27  */
+8. 111 = 0x27
+---------------------------------------
+define PCF8574's address below:  */
+#define PCF8574_defaultAddr 0x20
 
 
 // I2C address scanner for PCF8574 module: 
@@ -64,7 +66,6 @@ void run_PCF8574_addrScanner() {
   if (nDevices == 0) { Serial.println(F("No I2C devices found\n")); }
   else { Serial.println(F("done\n")); }
 }
-
 
 // pin initiator for PCF8574:
 void initPins_PCF8574() {
