@@ -41,7 +41,7 @@ define PCF8574's address below:  */
 
 
 // I2C address scanner for PCF8574 module: 
-void run_PCF8574_addrScanner() {
+void init_PCF8574_addrScanner() {
   byte error, address;
 
   Serial.println(F("Scanning..."));
@@ -72,17 +72,16 @@ void initPins_PCF8574() {
   if(nDevices>=1) {
     PCF8574 pcf8574(PCF8574_defaultAddr);
     delay(1450);
-    if (pcf8574.begin()) {
-      Serial.println("\n[PCF8574 module initiated]"); 
+    if (pcf8574.begin()) { 
       // PCF8574 pin mode definition:
-      //for(int pin=2;pin<=6;pin++){ pcf8574.pinMode('P'+pin, OUTPUT); }
+      // for(int pin=2;pin<=6;pin++){ pcf8574.pinMode('P'+pin, OUTPUT); }
       pcf8574.pinMode(PE1, OUTPUT);
       pcf8574.pinMode(PE2, OUTPUT);
+      pcf8574.pinMode(FCF, OUTPUT);
       pcf8574.pinMode(CSWP, OUTPUT);
       pcf8574.pinMode(HSWP, OUTPUT);
-      pcf8574.pinMode(FCF, OUTPUT);
-      Serial.println("[PCF8574 I/O pins initiated]"); 
+      Serial.println(F("[PCF8574 I/O pins initiated]")); 
     }
-    else { Serial.println("[Error initializing PCF8574, I/O pins]"); }
+    else { Serial.println(F("[PCF8574 device error!]")); }
   }
 }

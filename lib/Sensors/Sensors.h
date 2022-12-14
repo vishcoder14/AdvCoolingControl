@@ -18,7 +18,7 @@ returns temperature(in C) based on respective analog signals recieved.
 #include <DallasTemperature.h>
 #include <DS18B20_AddrDir.h>
 
-#define ONEWIRE_PORT 2
+#define ONEWIRE_PORT 2  // for DS18B20 devices
 #define RT0 10000
 #define B 3977 
 #define VCC 5
@@ -68,14 +68,14 @@ class ds18b20 {
   public : void GetTempByAddr() {
     if(INIT_FLAG) {
       sensors.requestTemperatures();
-      Serial.print(F("Sensor 1: "));
+      Serial.print(F("1: "));
       // getTemp({SENSOR ADDRESS})
       getTemp(X_MOT_SA);
-      Serial.print(F("Sensor 2: "));
+      Serial.print(F("2: "));
       getTemp(Y_MOT_SA);
-      Serial.print(F("Sensor 3: "));
+      Serial.print(F("3: "));
       getTemp(Z_MOT_SA);
-      Serial.print(F("Sensor 4: "));
+      Serial.print(F("4: "));
       getTemp(E_MOT_SA);
 
       Serial.println();
@@ -90,6 +90,6 @@ class ds18b20 {
   private : void getTemp(DeviceAddress deviceAddress) {
     float tempC = sensors.getTempC(deviceAddress);
     Serial.print(tempC);
-    Serial.print("C");
+    Serial.print(F("C"));
 }
 };

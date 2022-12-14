@@ -26,8 +26,6 @@ Mainly it control two independent RCS(s), named RCS-1, RCS-2.
 // relay states:
 #define TRIGG_RELAY LOW
 #define RELEASE_RELAY HIGH
-#define SWITCH_ON 0x1
-#define SWITCH_OFF 0x0
 
 // temperature constants:
 #define LOW_TEMP 14
@@ -38,28 +36,28 @@ Mainly it control two independent RCS(s), named RCS-1, RCS-2.
 
 
 // RELAY CONTROL SECTION (RCS):
-void switchRelay(uint8_t _relaydef, bool _state, String _deviceID) {
+void switchRelay(uint8_t _deviceID, bool _state, String _deviceName) {
   // @_state ON/1
-  if(_state == HIGH) {
-    if(digitalRead(_relaydef)!=_state) {
-      digitalWrite(_relaydef, TRIGG_RELAY);
-      Serial.print(_deviceID);
-      Serial.println(" switched ON");
+  if(_state == TRIGG_RELAY) {
+    if(digitalRead(_deviceID)!=_state) {
+      digitalWrite(_deviceID, TRIGG_RELAY);
+      Serial.print(_deviceName);
+      Serial.println(F(" switched ON"));
     }
-    else if(digitalRead(_relaydef) == _state) {
-      Serial.print(_deviceID);
-      Serial.println(" is already ON");
+    else if(digitalRead(_deviceID) == _state) {
+      Serial.print(_deviceName);
+      Serial.println(F(" is already ON"));
     }
   }
   // @_state OFF/0
-  else if(_state == LOW) {
-    if(digitalRead(_relaydef) != _state) {
-      digitalWrite(_relaydef, RELEASE_RELAY);
-      Serial.print(_deviceID);
+  else if(_state == RELEASE_RELAY) {
+    if(digitalRead(_deviceID) != _state) {
+      digitalWrite(_deviceID, RELEASE_RELAY);
+      Serial.print(_deviceName);
       Serial.println(" switched OFF");
     }
-    else if(digitalRead(_relaydef) == _state) {
-      Serial.print(_deviceID);
+    else if(digitalRead(_deviceID) == _state) {
+      Serial.print(_deviceName);
       Serial.println(" is already OFF");
     }
   }
@@ -69,15 +67,16 @@ void switchRelay(uint8_t _relaydef, bool _state, String _deviceID) {
 // (for NTC-S1 @peltier cool side)
 void NTC_CS(int _temp1) {
   if(_temp1<LOW_TEMP) {
-    switchRelay(PELTIER1, SWITCH_OFF, "peltier1");
-    switchRelay(PELTIER2, SWITCH_OFF, "peltier2");
+    switchRelay(PELTIER1, RELEASE_RELAY, "peltier1");
+    switchRelay(PELTIER2, RELEASE_RELAY, "peltier2");
   }
   else if(_temp1>MEDIAN_TEMP) { 
-    switchRelay(PELTIER1, SWITCH_ON, "peltier1");
+    switchRelay(PELTIER1, TRIGG_RELAY, "peltier1");
+    switchRelay(PELTIER2, RELEASE_RELAY, "peltier2");
   }
   else if(_temp1>HIGH_TEMP) {
-    switchRelay(PELTIER1, SWITCH_ON, "peltier1");
-    switchRelay(PELTIER2, SWITCH_ON, "peltier2");
+    switchRelay(PELTIER1, TRIGG_RELAY, "peltier1");
+    switchRelay(PELTIER2, TRIGG_RELAY, "peltier2");
   }
 }
 
@@ -85,10 +84,10 @@ void NTC_CS(int _temp1) {
 // (for NTC-S2 @peltier hot side)
 void NTC_HS(int _temp0) {
   if(_temp0<20) {
-    switchRelay(FLOOD_COOLANT_FAN, SWITCH_OFF, "coolant fan");
+    switchRelay(FLOOD_COOLANT_FAN, RELEASE_RELAY, "coolant fan");
   }
   else if(_temp0>45) {
-    switchRelay(FLOOD_COOLANT_FAN, SWITCH_ON, "coolant fan");
+    switchRelay(FLOOD_COOLANT_FAN, TRIGG_RELAY, "coolant fan");
   }
 }
 

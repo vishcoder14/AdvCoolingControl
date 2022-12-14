@@ -28,19 +28,15 @@ too, also for the print head. Make sures motor looses not steps. Cool :)
 #define main_power 3
 
 double TEMP1, TEMP2, TEMP3;
-char buffer[20];
 
 ntc10k NTC;
 ds18b20 DS18B20;
 
-
+// @PROGRMA ONCE BLOCK:
 void setup() {
 	Serial.begin(9600);
   delay(1000);
-  
-  // switch ON main power:
-  switchRelay(main_power, SWITCH_ON, "main power");
-  
+
   // MCU pin mode definition:
   pinMode(main_power, OUTPUT);
   pinMode(HSTS, INPUT);
@@ -48,27 +44,29 @@ void setup() {
   pinMode(NCTS, INPUT);
   Serial.println(F("[MCU I/O pin modes initiated]"));
   
-  // init_PCF8574_addrScanner();
-  // initPins_PCF8574(); 
+  // uncomment to start PCF8574 address scanner:
+  //init_PCF8574_addrScanner();
 
-  if(DS18B20.init_sensor() == EXIT_SUCCESS) {
-    Serial.println(F("[initiated DS18B20]"));
-   }
+  // initialize PCF8574 device pins:
+  initPins_PCF8574(); 
+
+  if(DS18B20.init_sensor()) { Serial.println(F("[initiated DS18B20]")); }
+  
+  // switch ON main power:
+  switchRelay(main_power, HIGH, "main power");
 }
 
 
 void loop() {
   TEMP1 = NTC.GetTemperature(analogRead(CSTS));  // NTC-S1 @peltier cool side [for thermoele.dev control]
   TEMP2 = NTC.GetTemperature(analogRead(HSTS));  // NTC-S2 @peltier hot side [for coolant fan control]
-  sprintf(buffer, "Peltier temp: hotside: %f | coolside: %f", TEMP1,TEMP2);
-  Serial.println(buffer);
+  Serial.print("Peltier temp:- HS: "+String(TEMP2)+" | CS: "+String(TEMP1));
   NTC_CS(TEMP1);
   NTC_HS(TEMP2);
 
   // NTC-sensor-3
   TEMP3 = NTC.GetTemperature(analogRead(NCTS));
-  Serial.println("Normal coolant temp: "+String(TEMP3));
-  Serial.println(F("Motor C-Block temp(s): "));
+  Serial.println("Normal coolant temp: "+String(TEMP3)); 
 
   // DS18B20 sensor batch-1
 
