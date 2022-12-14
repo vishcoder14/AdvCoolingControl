@@ -32,8 +32,6 @@ Mainly it control two independent RCS(s), named RCS-1, RCS-2.
 #define MEDIAN_TEMP 22
 #define HIGH_TEMP 32
 
-// device ID constants:
-
 
 // RELAY CONTROL SECTION (RCS):
 void switchRelay(uint8_t _deviceID, bool _state, String _deviceName) {

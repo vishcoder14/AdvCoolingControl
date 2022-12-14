@@ -24,7 +24,7 @@ returns temperature(in C) based on respective analog signals recieved.
 #define VCC 5
 #define R 10000
 
-// sensor address mpping 
+// sensor address mapping:
 // (X_MOT_SA -> x motor sensor address)
 #define X_MOT_SA x_addr
 #define Y_MOT_SA y_addr
