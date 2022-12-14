@@ -1,5 +1,5 @@
 /*
-[Part of ADVANCED COOLING CONTROL ALGORITHM]
+[Part of ADVANCED COOLING CONTROL ALGORITHMm]
 
 Temperature control library
 ---------------------------
