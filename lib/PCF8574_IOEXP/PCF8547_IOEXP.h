@@ -16,7 +16,7 @@ arduino environment.
 #include <PCF8574.h>
 #include <Wire.h>
 
-// set yours PCF8574's default address:
+// PCF8574's default address:
 #define PCF8574_defaultAddr 0x20
 
 // pin mapping:

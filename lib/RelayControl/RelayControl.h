@@ -16,10 +16,10 @@ Mainly it control two independent RCS(s), named RCS-1, RCS-2.
 
 #include <Arduino.h>
 
-// device mapping:
-#define peltier1 PE1
-#define peltier2 PE2
-#define flood_coolant_fan FCF
+// device pin mapping:
+#define PELTIER1 PE1
+#define PELTIER2 PE2
+#define FLOOD_COOLANT_FAN FCF
 #define CS_PUMP CSWP
 #define HS_PUMP HSWP
 
@@ -30,9 +30,9 @@ Mainly it control two independent RCS(s), named RCS-1, RCS-2.
 #define SWITCH_OFF 0x0
 
 // temperature constants:
-#define lowtemp 14
-#define mediantemp 22
-#define hightemp 32
+#define LOW_TEMP 14
+#define MEDIAN_TEMP 22
+#define HIGH_TEMP 32
 
 // device ID constants:
 
@@ -68,16 +68,16 @@ void switchRelay(uint8_t _relaydef, bool _state, String _deviceID) {
 // [RCS-1] Thermoelectric devices control:
 // (for NTC-S1 @peltier cool side)
 void NTC_CS(int _temp1) {
-  if(_temp1<lowtemp) {
-    switchRelay(peltier1, SWITCH_OFF, "peltier1");
-    switchRelay(peltier2, SWITCH_OFF, "peltier2");
+  if(_temp1<LOW_TEMP) {
+    switchRelay(PELTIER1, SWITCH_OFF, "peltier1");
+    switchRelay(PELTIER2, SWITCH_OFF, "peltier2");
   }
-  else if(_temp1>mediantemp) { 
-    switchRelay(peltier1, SWITCH_ON, "peltier1");
+  else if(_temp1>MEDIAN_TEMP) { 
+    switchRelay(PELTIER1, SWITCH_ON, "peltier1");
   }
-  else if(_temp1>hightemp) {
-    switchRelay(peltier1, SWITCH_ON, "peltier1");
-    switchRelay(peltier2, SWITCH_ON, "peltier2");
+  else if(_temp1>HIGH_TEMP) {
+    switchRelay(PELTIER1, SWITCH_ON, "peltier1");
+    switchRelay(PELTIER2, SWITCH_ON, "peltier2");
   }
 }
 
@@ -85,10 +85,10 @@ void NTC_CS(int _temp1) {
 // (for NTC-S2 @peltier hot side)
 void NTC_HS(int _temp0) {
   if(_temp0<20) {
-    switchRelay(flood_coolant_fan, SWITCH_OFF, "coolant fan");
+    switchRelay(FLOOD_COOLANT_FAN, SWITCH_OFF, "coolant fan");
   }
   else if(_temp0>45) {
-    switchRelay(flood_coolant_fan, SWITCH_ON, "coolant fan");
+    switchRelay(FLOOD_COOLANT_FAN, SWITCH_ON, "coolant fan");
   }
 }
 

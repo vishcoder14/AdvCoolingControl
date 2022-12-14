@@ -56,3 +56,4 @@ void printAddress(DeviceAddress deviceAddress) {
 void setup(){
   getDeviceAddr();
 }
+

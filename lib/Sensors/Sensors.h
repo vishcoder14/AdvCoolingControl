@@ -68,14 +68,14 @@ class ds18b20 {
   public : void GetTempByAddr() {
     if(INIT_FLAG) {
       sensors.requestTemperatures();
-      Serial.print("Sensor 1: ");
+      Serial.print(F("Sensor 1: "));
       // getTemp({SENSOR ADDRESS})
       getTemp(X_MOT_SA);
-      Serial.print("Sensor 2: ");
+      Serial.print(F("Sensor 2: "));
       getTemp(Y_MOT_SA);
-      Serial.print("Sensor 3: ");
+      Serial.print(F("Sensor 3: "));
       getTemp(Z_MOT_SA);
-      Serial.print("Sensor 4: ");
+      Serial.print(F("Sensor 4: "));
       getTemp(E_MOT_SA);
 
       Serial.println();
@@ -83,7 +83,7 @@ class ds18b20 {
     }
     else {
       init_sensor();
-      Serial.println("auto initialised DS18B20");
+      Serial.println(F("auto initialised DS18B20"));
     }
   }
 
