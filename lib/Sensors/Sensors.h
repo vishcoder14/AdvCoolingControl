@@ -2,7 +2,7 @@
 [Part of ADVANCED COOLING CONTROL ALGORITHM]
 
 Temperature control library
----------------------------sdad
+---------------------------
 
 Sensor control library for all types of temperature sensors. Contain several 
 functions for converting analog signals and converting it into temperature 
