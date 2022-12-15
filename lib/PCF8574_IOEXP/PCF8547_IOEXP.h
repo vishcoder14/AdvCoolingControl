@@ -17,11 +17,13 @@ arduino environment.
 #include <Wire.h>
 
 // pin mapping:
-#define PE1 P1
-#define PE2 P2
-#define FCF P3
-#define CSWP P4  
-#define HSWP P5
+#define PE1 P0
+#define PE2 P1
+#define FCF P2
+#define CSWP P3  
+#define HSWP P4
+#define CEXAH1 P5
+#define CEXAH2 P6
 int nDevices;
 
 /* ------------------------------------

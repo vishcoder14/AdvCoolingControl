@@ -1,4 +1,4 @@
-/* 
+/*
 [Part of ADVANCED COOLING CONTROL ALGORITHM]
 
 Control algorithm for temperature based Relay Control Systems
@@ -22,6 +22,8 @@ Mainly it control two independent RCS(s), named RCS-1, RCS-2.
 #define FLOOD_COOLANT_FAN FCF
 #define CS_PUMP CSWP
 #define HS_PUMP HSWP
+#define CABIN_EXHAUST1 CEXAH1
+#define CABIN_EXHAUST2 CEXAH2
 
 // relay states:
 #define TRIGG_RELAY LOW

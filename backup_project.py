@@ -1,15 +1,15 @@
 # backup_project.py
 
 ''' Python code for backup, vscode current workspace directory 
-	this code will backup all the folder and subfolder of current
-	file's directory. Paste this script to the directory whose 
-	content wants to be backuped '''
+	  this code will backup all the folder and subfolder of current
+	  file's directory. Paste this script to the directory whose
+	  content wants to be backuped '''
 
 # [vishnus_technologies (C) 2022]
-# --------------------------------------------------------------
+# ---------------------------------------------------------------
 
 
-import os 
+import os
 import shutil
 
 _usrname = os.getenv('USERNAME')
@@ -34,7 +34,7 @@ if(len(dst) == 0):
 	print("[MSG: You have entered nothing, setting this directory\n      {" +def_dst+"} as default destination folder]\n")
 else:
   if(os.path.exists(dst)):
-    print("directory entered: "+dst+" is validated")
+    print("Directory entered: "+dst+" is validated")
     shutil.copytree(src, dst)
   else: print("[ERROR: You have entered invalid destination directory!]\n")
-    
+
