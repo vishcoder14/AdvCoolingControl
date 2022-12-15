@@ -37,7 +37,7 @@ set your PCF8574's address accordingly:
 8. 111 = 0x27
 ---------------------------------------
 define PCF8574's address below:  */
-#define PCF8574_defaultAddr 0x20
+#define PCF8574_DEVICE_ADDRESS 0x20
 
 
 // I2C address scanner for PCF8574 module: 
@@ -70,7 +70,7 @@ void init_PCF8574_addrScanner() {
 // pin initiator for PCF8574:
 void initPins_PCF8574() {
   if(nDevices>=1) {
-    PCF8574 pcf8574(PCF8574_defaultAddr);
+    PCF8574 pcf8574(PCF8574_DEVICE_ADDRESS);
     delay(1450);
     if (pcf8574.begin()) { 
       // PCF8574 pin mode definition:
