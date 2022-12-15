@@ -53,7 +53,7 @@ void setup() {
   if(DS18B20.init_sensor()) { Serial.println(F("[initiated DS18B20]")); }
   
   // switch ON main power:
-  switchRelay(main_power, HIGH, "main power");
+  switchRelay(main_power, HIGH);
 }
 
 
