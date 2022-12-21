@@ -1,6 +1,6 @@
 /*
 # main.cpp
-fg
+
 ADVANCED COOLING CONTROL ALGORITHM (For Ender-3 PRO)
 ----------------------------------------------------
 
